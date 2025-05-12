@@ -1,120 +1,108 @@
 import streamlit as st
 from googletrans import Translator
 from gtts import gTTS
+import os
 import tempfile
 
-# Page config
-st.set_page_config(
-    page_title="LINGO_DJPT",
-    page_icon="🗣️",
-    layout="centered"
-)
+# Set page configuration
+st.set_page_config(page_title="LINGO_DJPT", layout="centered", initial_sidebar_state="collapsed")
 
-# Custom CSS styling
+# Custom responsive header
 st.markdown("""
     <style>
-        .stApp {
-            background-color: #grey;
-        }
         .header-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            align-items: baseline;
-            gap: 10px;
-            margin-top: 30px;
-            margin-bottom: 20px;
+            align-items: center;
+            text-align: center;
+            padding: 10px 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
         }
         .main-header {
-            font-size: 3em;
+            font-size: 2.5em;
             font-weight: 800;
-            text-align: center;
             color: #2c3e50;
-            margin-top: 20px;
+            margin: 0 10px;
         }
         .sub-header {
             font-size: 1.2em;
             font-weight: 500;
-            text-align: center;
-            color: #888;
-            margin-bottom: 30px;
+            color: #666;
+            margin: 0 10px;
         }
-        .translated-box {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.05);
-            font-size: 1.3em;
-            font-weight: 500;
-            color: #2c3e50;
+        @media screen and (max-width: 768px) {
+            .main-header {
+                font-size: 1.8em;
+            }
+            .sub-header {
+                font-size: 1em;
+                margin-top: 4px;
+            }
         }
-        .copy-button {
-            background-color: #2ecc71;
-            color: white;
-            font-size: 1em;
-            padding: 8px 20px;
-            border: none;
-            border-radius: 5px;
-            margin-top: 15px;
-            cursor: pointer;
-        }
-        .copy-button:hover {
-            background-color: #27ae60;
-        }
-        .footer {
-            text-align: center;
-            font-size: 0.9em;
-            color: #999;
-            margin-top: 50px;
+        @media screen and (max-width: 480px) {
+            .header-container {
+                flex-direction: column;
+                gap: 6px;
+            }
+            .main-header {
+                font-size: 1.6em;
+            }
+            .sub-header {
+                font-size: 0.95em;
+            }
         }
     </style>
+    <div class="header-container">
+        <div class="main-header">🗣️ LINGO_DJPT</div>
+        <div class="sub-header">SVUD_P2</div>
+    </div>
 """, unsafe_allow_html=True)
 
-# App Header
-st.markdown("<div class='header-container'><div class='main-header'>🗣️ LINGO_DJPT</div><div class='sub-header'>-SVUD_P2</div></div>", unsafe_allow_html=True)
-st.markdown("<div class='sub-header'>Translate & Speak in Any Language</div>", unsafe_allow_html=True)
+# Title and subtitle
+st.markdown("## 🌍 Translate and Speak")
+st.markdown("Easily translate any text and listen to it using Text-to-Speech.")
 
-# Language options
-languages = {
-    "Hindi": "hi", "French": "fr", "Spanish": "es", "German": "de",
-    "Tamil": "ta", "Bengali": "bn", "Japanese": "ja", "Russian": "ru",
-    "Arabic": "ar", "Chinese": "zh-cn", "Korean": "ko", "Italian": "it"
+# Text input
+text_input = st.text_area("Enter text to translate:", height=150)
+
+# Language dictionary
+langs = {
+    'English': 'en', 'Hindi': 'hi', 'Spanish': 'es', 'French': 'fr',
+    'German': 'de', 'Gujarati': 'gu', 'Chinese': 'zh-cn', 'Japanese': 'ja'
 }
 
-# Input section
-st.markdown("### ✍️ Enter English Text:")
-text_input = st.text_area("", height=180, placeholder="Type your sentence here...")
+# Language selection
+col1, col2 = st.columns(2)
+with col1:
+    src_lang = st.selectbox("Source Language", list(langs.keys()), index=0)
+with col2:
+    tgt_lang = st.selectbox("Target Language", list(langs.keys()), index=1)
 
-target_lang = st.selectbox("🌐 Choose Translation Language:", options=list(languages.keys()), index=0)
+# Translation and audio
+if st.button("🔁 Translate & Speak"):
+    if text_input:
+        with st.spinner("Translating and generating audio..."):
+            translator = Translator()
+            translated = translator.translate(text_input, src=langs[src_lang], dest=langs[tgt_lang])
+            st.success(f"Translated Text ({tgt_lang}):")
+            st.markdown(f"### \"{translated.text}\"")
 
-translator = Translator()
-
-if st.button("🚀 Translate & Speak", help="Click to translate and generate audio"):
-    if not text_input.strip():
-        st.warning("⚠️ Please enter text before translating.")
+            tts = gTTS(text=translated.text, lang=langs[tgt_lang])
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tf:
+                tts.save(tf.name)
+                st.audio(tf.name, format='audio/mp3')
     else:
-        with st.spinner("🔄 Translating and generating speech..."):
-            lang_code = languages[target_lang]
-            translated_text = translator.translate(text_input, dest=lang_code).text
-
-            # Output
-            st.markdown("### ✅ Translation:")
-            st.markdown(f"<div class='translated-box'>{translated_text}</div>", unsafe_allow_html=True)
-
-            # Copy to clipboard
-            st.markdown(f"""
-                <button class="copy-button" onclick="navigator.clipboard.writeText(`{translated_text}`)">
-                    📋 Copy Translation
-                </button>
-            """, unsafe_allow_html=True)
-
-            # TTS Audio Output
-            try:
-                tts = gTTS(text=translated_text, lang=lang_code)
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmpfile:
-                    tts.save(tmpfile.name)
-                    st.audio(tmpfile.name, format="audio/mp3")
-            except Exception as e:
-                st.error(f"🔊 Error generating audio: {e}")
+        st.warning("Please enter text to translate.")
 
 # Footer
-st.markdown("<div class='footer'>🌍 LINGO_DJPT • SVUD_P2 • Powered by Python, Streamlit, Google Translate API, and gTTS</div>", unsafe_allow_html=True)
+st.markdown("""
+    <hr style='margin-top:40px;'>
+    <div style='text-align: center; color: gray;'>
+        Created with ❤️ by DJPT • Part of SVUD Projects
+    </div>
+""", unsafe_allow_html=True)
