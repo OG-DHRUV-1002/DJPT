@@ -103,6 +103,6 @@ if st.button("🔁 Translate & Speak"):
 st.markdown("""
     <hr style='margin-top:40px;'>
     <div style='text-align: center; color: gray;'>
-        Created with ❤️ by DJPT • Part of SVUD Projects
+        🌍 LINGO_DJPT • SVUD_P2 • Powered by Python, Streamlit, Google Translate API, and gTTS
     </div>
 """, unsafe_allow_html=True)
