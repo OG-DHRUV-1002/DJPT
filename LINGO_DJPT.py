@@ -72,8 +72,9 @@ text_input = st.text_area("Enter text to translate:", height=150)
 
 # Language dictionary
 langs = {
-    'English': 'en', 'Hindi': 'hi', 'Spanish': 'es', 'French': 'fr',
-    'German': 'de', 'Gujarati': 'gu', 'Chinese': 'zh-cn', 'Japanese': 'ja'
+    "Hindi": "hi", "French": "fr", "Spanish": "es", "German": "de",
+    "Tamil": "ta", "Bengali": "bn", "Japanese": "ja", "Russian": "ru",
+    "Arabic": "ar", "Chinese": "zh-cn", "Korean": "ko", "Italian": "it"
 }
 
 # Language selection
