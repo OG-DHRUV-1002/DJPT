@@ -58,7 +58,7 @@ st.markdown("""
         }
     </style>
     <div class="header-container">
-        <div class="main-header">🗣️ LINGO_DJPT</div>
+        <div class="main-header">🗣 LINGO_DJPT</div>
         <div class="sub-header">SVUD_P2</div>
     </div>
 """, unsafe_allow_html=True)
@@ -93,11 +93,11 @@ if st.button("🔁 Translate & Speak"):
             st.success(f"Translated Text ({tgt_lang}):")
             st.markdown(f"### \"{translated.text}\"")
 
-             tts = gTTS(text=translated.text, lang=langs[tgt_lang])
+            tts = gTTS(text=translated.text, lang=langs[tgt_lang])
             with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tf:
                 tts.save(tf.name)
                 st.audio(tf.name, format='audio/mp3')
-                
+
                 # Read file as binary and allow download
                 with open(tf.name, "rb") as audio_file:
                     audio_bytes = audio_file.read()
