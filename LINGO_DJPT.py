@@ -72,10 +72,19 @@ text_input = st.text_area("Enter text to translate:", height=150)
 
 # Language dictionary
 langs = {
-    "English": "en","Hindi": "hi", "French": "fr", "Spanish": "es", "German": "de",
-    "Tamil": "ta", "Bengali": "bn", "Japanese": "ja", "Russian": "ru",
-    "Arabic": "ar", "Chinese": "zh-cn", "Korean": "ko", "Italian": "it"
+    "Afrikaans": "af", "Arabic": "ar", "Bengali": "bn", "Bulgarian": "bg", "Chinese (Simplified)": "zh-cn",
+    "Chinese (Traditional)": "zh-tw", "Croatian": "hr", "Czech": "cs", "Danish": "da", "Dutch": "nl",
+    "English": "en", "Estonian": "et", "Filipino": "tl", "Finnish": "fi", "French": "fr",
+    "German": "de", "Greek": "el", "Gujarati": "gu", "Hebrew": "iw", "Hindi": "hi",
+    "Hungarian": "hu", "Icelandic": "is", "Indonesian": "id", "Italian": "it", "Japanese": "ja",
+    "Kannada": "kn", "Korean": "ko", "Latvian": "lv", "Lithuanian": "lt", "Malay": "ms",
+    "Malayalam": "ml", "Marathi": "mr", "Nepali": "ne", "Norwegian": "no", "Polish": "pl",
+    "Portuguese": "pt", "Punjabi": "pa", "Romanian": "ro", "Russian": "ru", "Serbian": "sr",
+    "Slovak": "sk", "Slovenian": "sl", "Spanish": "es", "Swahili": "sw", "Swedish": "sv",
+    "Tamil": "ta", "Telugu": "te", "Thai": "th", "Turkish": "tr", "Ukrainian": "uk",
+    "Urdu": "ur", "Vietnamese": "vi", "Welsh": "cy"
 }
+
 
 # Language selection
 col1, col2 = st.columns(2)
