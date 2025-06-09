@@ -83,10 +83,3 @@ Unlike basic translators, **LINGO_DJPT**:
 - gTTS
 - googletrans==4.0.0-rc1
 
-### 🔽 Installation Steps
-
-```bash
-git clone https://github.com/your-username/lingo_djpt.git
-cd lingo_djpt
-pip install -r requirements.txt
-streamlit run app.py
